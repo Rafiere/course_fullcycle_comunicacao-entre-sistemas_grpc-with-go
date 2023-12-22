@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb; // Isso definirá o nome do pacote.
+
+option go_package = "internal/pb"; //Criaremos uma pasta "internal" com o nome de "pb".
+
+message Category {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CategoryResponse { //Essa é a response que retorna uma category
+  Category category = 1; //Essa response é do tipo "Category", que foi definido acima.
+}
+
+message CreateCategoryRequest { //Essa é a request que será utilizada para criarmos uma category.
+  string name = 1;
+  string description = 2;
+}
+
+service CategoryService { //Esse serviço receberá uma request e retornará uma response.
+  rpc CreateCategory(CreateCategoryRequest) returns (CategoryResponse) {}
+}
