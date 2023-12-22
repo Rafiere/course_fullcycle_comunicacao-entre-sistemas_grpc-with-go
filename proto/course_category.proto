@@ -10,8 +10,15 @@ message Category {
   string description = 3;
 }
 
+message blank {} //Está vazia pois, para listar, não vamos enviar nada, porém, o gRPC exige que enviemos
+                 //algo, então criamos uma mensagem em branco.
+
 message CategoryResponse { //Essa é a response que retorna uma category
   Category category = 1; //Essa response é do tipo "Category", que foi definido acima.
+}
+
+message CategoryList {
+  repeated Category categories = 1; //Receberemos várias "Category". É como se fosse uma lista, que é definida pela palavra-chave "repeated".
 }
 
 message CreateCategoryRequest { //Essa é a request que será utilizada para criarmos uma category.
@@ -21,4 +28,6 @@ message CreateCategoryRequest { //Essa é a request que será utilizada para cri
 
 service CategoryService { //Esse serviço receberá uma request e retornará uma response.
   rpc CreateCategory(CreateCategoryRequest) returns (CategoryResponse) {}
+  rpc CreateCategoryStream(stream CreateCategoryRequest) returns (CategoryList) {}
+  rpc ListCategories(blank) returns (CategoryList) {}
 }
